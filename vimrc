@@ -4,15 +4,16 @@ let mapleader = "\<space>"
 
 " {{{1 Load plugins
 
-if !filereadable('~/.vim/autoload/plug.vim')
+if !filereadable(resolve(expand('~/.vim/autoload/plug.vim')))
   let s:stop = 1
   execute 'silent !~/.vim/init.sh'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  autocmd VimEnter * PlugInstall --sync | quitall
 endif
 
 silent! if plug#begin('~/.vim/bundle')
 
-call plug#(s:lervag . 'vimtex')
+" Load local plugin files
+Plug '~/.vim/personal'
 
 " Plugin manager
 Plug 'junegunn/vim-plug', { 'on' : [] }

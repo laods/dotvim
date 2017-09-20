@@ -10,13 +10,17 @@ nice plugins, see `personal/plugin`.
 If you want to try this, you can do this:
 
 ```sh
-# If .vim already exists:
+# If necessary:
 mv ~/.vim ~/.vim_old
+mv ~/.vimrc ~/.vimrc_old
 
 # Clone dotvim-simple
-git clone https://github.com/lervag/dotvim-simple.git ~/.vim
+git clone https://github.com/lervag/dotvim-simple ~/.vim
 
-# Start Vim and let it install plugins automatically
+# Start Vim, let it install plugins and quit
+vim
+
+# Now edit as desired...
 vim
 ```
 
