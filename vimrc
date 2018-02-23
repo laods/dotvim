@@ -1,19 +1,12 @@
-" Use space as leader key
-nnoremap <space> <nop>
-let mapleader = "\<space>"
+" Vim configuration
+"
+" Author: Karl Yngve Lervåg
+
+call vimrc#init()
 
 " {{{1 Load plugins
 
-if !filereadable(resolve(expand('~/.vim/autoload/plug.vim')))
-  let s:stop = 1
-  execute 'silent !~/.vim/init.sh'
-  autocmd VimEnter * PlugInstall --sync | quitall
-endif
-
-silent! if plug#begin('~/.vim/bundle')
-
-" Load local plugin files
-Plug '~/.vim/personal'
+call plug#begin(g:vimrc#path_bundles)
 
 " Plugin manager
 Plug 'junegunn/vim-plug', { 'on' : [] }
@@ -45,11 +38,11 @@ Plug 'davidhalter/jedi-vim'     " Python plugin (e.g. completion)
 Plug 'vim-python/python-syntax' " Python syntax plugin
 Plug 'tmhedberg/SimpylFold'     " Python fold plugin
 
-call plug#end() | endif
+call plug#end()
 
-if exists('s:stop')
-  finish
-endif
+" }}}1
+
+if g:vimrc#bootstrap | finish | endif
 
 " {{{1 Autocommands
 
@@ -63,10 +56,7 @@ augroup vimrc_autocommands
   " When editing a file, always jump to the last known cursor position.  Don't
   " do it when the position is invalid or when inside an event handler (happens
   " when dropping a file on gvim).
-  autocmd BufReadPost *
-        \ if line("'\"") > 0 && line("'\"") <= line('$') |
-        \   execute 'normal! g`"' |
-        \ endif
+  autocmd BufReadPost * call personal#init#go_to_last_known_position()
 
   " Set keymapping for command window
   autocmd CmdwinEnter * nnoremap <buffer> q <c-c><c-c>
@@ -90,7 +80,6 @@ if !has('nvim')
   set backspace=indent,eol,start
   set wildmenu
   set laststatus=2
-  set smarttab
   set autoindent
   set incsearch
 endif
@@ -297,18 +286,8 @@ nnoremap <leader>gl :Gitv --all<cr>
 nnoremap <leader>gL :Gitv! --all<cr>
 xnoremap <leader>gl :Gitv! --all<cr>
 
-nmap     <leader>gs :Gstatus<cr>gg<c-n>
+nnoremap <silent><leader>gs :call personal#git#fugitive_toggle()<cr>
 nnoremap <leader>gd :Gdiff<cr>
-
-command! Gtogglestatus :call Gtogglestatus()
-
-function! Gtogglestatus()
-  if buflisted(bufname('.git/index'))
-    bd .git/index
-  else
-    Gstatus
-  endif
-endfunction
 
 augroup vimrc_fugitive
   autocmd!
@@ -389,8 +368,7 @@ vmap     <silent><leader>f  <Plug>CtrlSFVwordExec
 " }}}2
 " {{{2 plugin: CtrlP
 
-let g:ctrlp_map = '<leader><leader>'
-let g:ctrlp_cmd = 'CtrlPMRU'
+let g:ctrlp_map = ''
 let g:ctrlp_switch_buffer = 'e'
 let g:ctrlp_working_path_mode = 'rc'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
@@ -398,8 +376,12 @@ let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
 if executable('rg')
   let g:ctrlp_user_command += ['rg %s --files --color=never --glob ""']
   let g:ctrlp_use_caching = 0
+elseif executable('ag')
+  let g:ctrlp_user_command += ['ag %s -l --nocolor -g ""']
+  let g:ctrlp_use_caching = 0
 endif
 
+let g:ctrlp_match_func = {'match': 'pymatcher#PyMatch'}
 let g:ctrlp_tilde_homedir = 1
 let g:ctrlp_match_window = 'top,order:ttb,min:30,max:30'
 let g:ctrlp_status_func = {
@@ -420,9 +402,11 @@ let g:ctrlp_mruf_exclude = '\v' . join([
       \], '|')
 
 " Mappings
-nnoremap <silent> <leader>oo :CtrlP<cr>
-nnoremap <silent> <leader>ov :CtrlP ~/.vim<cr>
-nnoremap <silent> <leader>ob :CtrlPBuffer<cr>
+nnoremap <silent> <leader>oo       :CtrlP<cr>
+nnoremap <silent> <leader>ov       :CtrlP ~/.vim<cr>
+nnoremap <silent> <leader>ob       :CtrlPBuffer<cr>
+nnoremap <silent> <leader><leader>
+      \ :call personal#ctrlp#disable_matchfunc('CtrlPMRU')<cr>
 
 " }}}2
 " {{{2 plugin: FastFold
