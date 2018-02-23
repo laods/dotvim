@@ -28,6 +28,7 @@ endif
 
 " Miscellaneous
 Plug 'lervag/vimtex'            " LaTeX plugin
+Plug 'andymass/vim-matchup'     " Highlight matching stuff
 Plug 'dyng/ctrlsf.vim'          " A very nice search and replace plugin
 Plug 'tpope/vim-repeat'         " Allow . to repeat more actions
 Plug 'Konfekt/FastFold'         " Make folding work faster
@@ -262,9 +263,6 @@ nnoremap <silent> <leader>xv :source $MYVIMRC<cr>
 
 " {{{2 internal
 
-" Enable internal matchit plugin
-runtime macros/matchit.vim
-
 " Disable a lot of unnecessary internal plugins
 let g:loaded_2html_plugin = 1
 let g:loaded_getscriptPlugin = 1
@@ -429,6 +427,12 @@ let g:rainbow_conf = {
       \   'fortran' : {},
       \ }
       \}
+
+" }}}2
+" {{{2 plugin: vim-matchup
+
+let g:matchup_matchparen_status_offscreen = 0
+let g:matchup_override_vimtex = 1
 
 " }}}2
 " {{{2 plugin: vim-plug
