@@ -216,6 +216,7 @@ if &t_Co == 8 && $TERM !~# '^linux'
 endif
 
 " Set colorscheme and custom colors
+autocmd vimrc_autocommands ColorScheme * call personal#init#custom_colors()
 silent! colorscheme my_solarized
 
 " Initialize statusline and tabline
@@ -342,10 +343,6 @@ let g:ale_linters = {
 nmap <silent> <leader>aa <Plug>(ale_lint)
 nmap <silent> <leader>aj <Plug>(ale_next_wrap)
 nmap <silent> <leader>ak <Plug>(ale_previous_wrap)
-
-highlight link ALEErrorLine ErrorMsg
-highlight link ALEWarningLine WarningMsg
-highlight link ALEInfoLine ModeMsg
 
 " }}}2
 " {{{2 plugin: CtrlFS
