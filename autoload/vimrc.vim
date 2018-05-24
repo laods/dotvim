@@ -20,8 +20,11 @@ function! vimrc#init() abort " {{{1
   if g:vimrc#bootstrap
     execute 'silent !' . vimrc#path('init.sh')
 
-    " vint: -ProhibitAutocmdWithNoGroup
+    " Apply some minimal settings
     let g:plug_window = 'new|wincmd o'
+    silent! colorscheme my_solarized
+
+    " vint: -ProhibitAutocmdWithNoGroup
     autocmd VimEnter * nested PlugInstall --sync | source $MYVIMRC
     " vint: +ProhibitAutocmdWithNoGroup
   endif
