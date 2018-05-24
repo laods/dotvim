@@ -8,36 +8,45 @@ call vimrc#init()
 
 call plug#begin(g:vimrc#path_bundles)
 
-" Plugin manager
 Plug 'junegunn/vim-plug', { 'on' : [] }
 
-" Git plugins
-Plug 'gregsexton/gitv', { 'on' : 'Gitv' }
-Plug 'tpope/vim-fugitive'
+" Plugin: UI
+Plug 'Konfekt/FastFold'         " Make folding work faster
+Plug 'luochen1990/rainbow'      " Rainbow parantheses (looks good)
+Plug 'andymass/vim-matchup'     " Highlight matching stuff
+Plug 'junegunn/vim-slash'       " For improved search highlighting
 
-" Compatibility layer between neovim and Vim
-Plug 'roxma/vim-hug-neovim-rpc', !has('nvim') ? {} : { 'on' : [] }
+" Plugin: Completion and snippets
+if has('nvim') || v:version >= 800
+  Plug 'Shougo/deoplete.nvim',
+        \ has('nvim') ? { 'do': ':UpdateRemotePlugins' } : {}
+endif
+Plug 'roxma/vim-hug-neovim-rpc', has('nvim') ? { 'on' : [] } : {}
+Plug 'roxma/nvim-yarp', has('nvim') ? { 'on' : [] } : {}
 
-" Completion
-Plug 'roxma/nvim-completion-manager'
-
-" Automatic linting
+" Plugin: Linting, debugging, and code runners
 if has('nvim') || v:version >= 800
   Plug 'w0rp/ale'
 endif
 
-" Miscellaneous
-Plug 'lervag/vimtex'            " LaTeX plugin
-Plug 'andymass/vim-matchup'     " Highlight matching stuff
-Plug 'dyng/ctrlsf.vim'          " A very nice search and replace plugin
+" Plugin: Editing
 Plug 'tpope/vim-repeat'         " Allow . to repeat more actions
-Plug 'Konfekt/FastFold'         " Make folding work faster
-Plug 'luochen1990/rainbow'      " Rainbow parantheses (looks good)
+
+" Plugin: Version control systems
+Plug 'gregsexton/gitv', { 'on' : 'Gitv' }
+Plug 'tpope/vim-fugitive'
+
+" Plugin: Finder, motions, and tags
 Plug 'ctrlpvim/ctrlp.vim'       " Fuzzy file finder
-Plug 'junegunn/vim-slash'       " For improved search highlighting
+Plug 'dyng/ctrlsf.vim'          " A very nice search and replace plugin
+
+" Filetype: python
 Plug 'davidhalter/jedi-vim'     " Python plugin (e.g. completion)
 Plug 'vim-python/python-syntax' " Python syntax plugin
 Plug 'tmhedberg/SimpylFold'     " Python fold plugin
+
+" Filetype: LaTeX
+Plug 'lervag/vimtex'            " LaTeX plugin
 
 call plug#end()
 
@@ -486,5 +495,3 @@ let g:vimtex_view_general_viewer = 'evince'
 " }}}2
 
 " }}}1
-
-" vim: fdm=marker
