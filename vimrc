@@ -24,6 +24,10 @@ endif
 Plug 'roxma/vim-hug-neovim-rpc', has('nvim') ? { 'on' : [] } : {}
 Plug 'roxma/nvim-yarp', has('nvim') ? { 'on' : [] } : {}
 
+" Plugin: Finder, motions, and tags
+Plug 'ctrlpvim/ctrlp.vim'       " Fuzzy file finder
+Plug 'dyng/ctrlsf.vim'          " A very nice search and replace plugin
+
 " Plugin: Linting, debugging, and code runners
 if has('nvim') || v:version >= 800
   Plug 'w0rp/ale'
@@ -35,10 +39,6 @@ Plug 'tpope/vim-repeat'         " Allow . to repeat more actions
 " Plugin: Version control systems
 Plug 'gregsexton/gitv', { 'on' : 'Gitv' }
 Plug 'tpope/vim-fugitive'
-
-" Plugin: Finder, motions, and tags
-Plug 'ctrlpvim/ctrlp.vim'       " Fuzzy file finder
-Plug 'dyng/ctrlsf.vim'          " A very nice search and replace plugin
 
 " Filetype: python
 Plug 'davidhalter/jedi-vim'     " Python plugin (e.g. completion)
@@ -63,9 +63,7 @@ augroup vimrc_autocommands
   autocmd WinEnter,FocusGained * setlocal cursorline
   autocmd WinLeave,FocusLost   * setlocal nocursorline
 
-  " When editing a file, always jump to the last known cursor position.  Don't
-  " do it when the position is invalid or when inside an event handler (happens
-  " when dropping a file on gvim).
+  " When editing a file, always jump to the last known cursor position.
   autocmd BufReadPost * call personal#init#go_to_last_known_position()
 
   " Set keymapping for command window
@@ -92,6 +90,11 @@ if !has('nvim')
   set laststatus=2
   set autoindent
   set incsearch
+endif
+
+" Neovim specific options
+if has('nvim')
+  set inccommand=nosplit
 endif
 
 " Basic
@@ -140,7 +143,6 @@ set confirm
 set hidden
 set shortmess=aoOtT
 silent! set shortmess+=cI
-silent! set shortmess+=F
 set textwidth=79
 set nowrap
 set linebreak
@@ -258,6 +260,10 @@ nnoremap c*   *``cgn
 nnoremap c#   *``cgN
 nnoremap cg* g*``cgn
 nnoremap cg# g*``cgN
+nnoremap d*   *``dgn
+nnoremap d#   *``dgN
+nnoremap dg* g*``dgn
+nnoremap dg# g*``dgN
 
 " Navigate folds
 nnoremap          zf zMzvzz
@@ -290,12 +296,12 @@ let g:loaded_zipPlugin = 1
 let g:Gitv_WipeAllOnClose = 1
 let g:Gitv_DoNotMapCtrlKey = 1
 
-nnoremap <leader>gl :Gitv --all<cr>
-nnoremap <leader>gL :Gitv! --all<cr>
-xnoremap <leader>gl :Gitv! --all<cr>
+nnoremap <silent><leader>gl :Gitv --all<cr>
+nnoremap <silent><leader>gL :Gitv! --all<cr>
+xnoremap <silent><leader>gl :Gitv! --all<cr>
 
 nnoremap <silent><leader>gs :call personal#git#fugitive_toggle()<cr>
-nnoremap <leader>gd :Gdiff<cr>
+nnoremap <silent><leader>gd :Gdiff<cr>
 
 augroup vimrc_fugitive
   autocmd!
@@ -306,27 +312,27 @@ augroup END
 " }}}2
 " {{{2 feature: completion
 
-let g:cm_sources_override = {
-      \ 'cm-bufkeyword' : {'abbreviation' : 'key'},
-      \}
-let g:cm_completeopt = 'menu,menuone,noinsert,noselect,preview'
+let g:deoplete#enable_at_startup = 1
 
-inoremap <expr> <cr>    pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
-inoremap <expr> <tab>   pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+try
+  call deoplete#custom#option('smart_case', v:true)
+  call deoplete#custom#option('ignore_sources', {'_': ['around']})
 
-augroup my_cm_setup
-  autocmd!
-  autocmd User CmSetup call cm#register_source({
-        \ 'name' : 'vimtex',
-        \ 'priority': 8,
-        \ 'scoping': 1,
-        \ 'scopes': ['tex'],
-        \ 'abbreviation': 'tex',
-        \ 'cm_refresh_patterns': g:vimtex#re#ncm,
-        \ 'cm_refresh': {'omnifunc': 'vimtex#complete#omnifunc'},
-        \ })
-augroup END
+  call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
+  call deoplete#custom#source('ultisnips', 'rank', 1000)
+
+  call deoplete#custom#var('omni', 'input_patterns', {
+        \ 'foam' : g:foam#complete#re_refresh_deoplete,
+        \ 'tex' : g:vimtex#re#deoplete,
+        \})
+catch
+endtry
+
+inoremap <expr><c-h>   deoplete#smart_close_popup() . "\<c-h>"
+inoremap <expr><bs>    deoplete#smart_close_popup() . "\<c-h>"
+inoremap <expr><cr>    pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
+inoremap <expr><tab>   pumvisible() ? "\<c-n>" : "\<tab>"
+inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
 " }}}2
 
@@ -446,7 +452,7 @@ let g:matchup_override_vimtex = 1
 " }}}2
 " {{{2 plugin: vim-plug
 
-let g:plug_window = 'tab new'
+let g:plug_window = 'new|wincmd o'
 
 nnoremap <silent> <leader>pd :PlugDiff<cr>
 nnoremap <silent> <leader>pi :PlugInstall<cr>

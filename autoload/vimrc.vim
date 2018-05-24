@@ -10,17 +10,18 @@ function! vimrc#init() abort " {{{1
   " Add personal files to runtimepath
   let &runtimepath = vimrc#path('personal') . ',' . &runtimepath
   let &runtimepath .= ',' . vimrc#path('personal/after')
-  
+
   " Get some system information and define some paths/urls
   let g:vimrc#bootstrap = !filereadable(vimrc#path('autoload/plug.vim'))
 
   let g:vimrc#path_bundles = vimrc#path('bundle')
 
-  " If plug.vim is not available, then we source the init script and 
+  " If plug.vim is not available, then we source the init script
   if g:vimrc#bootstrap
     execute 'silent !' . vimrc#path('init.sh')
 
     " vint: -ProhibitAutocmdWithNoGroup
+    let g:plug_window = 'new|wincmd o'
     autocmd VimEnter * nested PlugInstall --sync | source $MYVIMRC
     " vint: +ProhibitAutocmdWithNoGroup
   endif
