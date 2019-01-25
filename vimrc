@@ -140,6 +140,7 @@ if !isdirectory(&undodir)
 endif
 
 " Behaviour
+set autochdir
 set lazyredraw
 set confirm
 set hidden
@@ -223,7 +224,10 @@ endif
 
 " {{{1 Appearance and UI
 
+" {{{2 asdasd
 set background=light
+set termguicolors
+" }}}2
 
 if &t_Co == 8 && $TERM !~# '^linux'
   set t_Co=256
@@ -393,7 +397,7 @@ elseif executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
-let g:ctrlp_match_func = {'match': 'pymatcher#PyMatch'}
+"let g:ctrlp_match_func = {'match': 'pymatcher#PyMatch'}
 let g:ctrlp_tilde_homedir = 1
 let g:ctrlp_match_window = 'top,order:ttb,min:30,max:30'
 let g:ctrlp_status_func = {
@@ -441,6 +445,7 @@ let g:rainbow_conf = {
       \   'wiki' : 0,
       \   'md' : 0,
       \   'help' : 0,
+      \   'vim' : 0,
       \   'fortran' : {},
       \ }
       \}
