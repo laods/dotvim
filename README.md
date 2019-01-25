@@ -24,3 +24,9 @@ vim
 vim
 ```
 
+## Solarized color theme in terminal
+
+For therminator:
+```sh
+git clone https://github.com/ghuntley/terminator-solarized.git
+```
