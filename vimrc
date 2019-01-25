@@ -246,7 +246,7 @@ call statusline#init_tabline()
 " Disable some mappings
 noremap  <f1>   <nop>
 inoremap <f1>   <nop>
-inoremap <esc>  <nop>
+" inoremap <esc>  <nop>
 nnoremap Q      <nop>
 
 " Some general/standard remappings
@@ -335,7 +335,7 @@ catch
 endtry
 
 inoremap <expr><c-h>   deoplete#smart_close_popup() . "\<c-h>"
-inoremap <expr><bs>    deoplete#smart_close_popup() . "\<c-h>"
+" inoremap <expr><bs>    deoplete#smart_close_popup() . "\<c-h>"
 inoremap <expr><cr>    pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
 inoremap <expr><tab>   pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
