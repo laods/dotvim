@@ -1,0 +1,62 @@
+Vim cheat list, by Lars Hov Odsæter
+
+*Navigation*
+0           Beginning of line
+$           End of line
+w           Word forward
+b           Word backward
+gg          Beginning of file
+G           End of file
+
+*Copy-paste*
+v           Highlight text one character at time
+V           Highlight text one line at time
+Ctrl-v      Highlight text one column at time
+y           Yank (copy)
+p           Paste text after current line
+P           Paste text on currunt line
+
+*Windows*
+:sp [file]      Split horizontally
+:vs [file]      Split vertically
+Ctrl-w Ctrl-w   Navigate windows
+Ctrl-w <arrow>  Change window
+Ctrl-w r        Rotate windows clockwise
+Ctrl-w R        Rotate windows co-clockwise
+Ctrl-w c        Close window
+:tabnew [file]  Open new tab
+gt              Switch tab
+gT              Switch tab prev
+:tabc           Close tab
+
+*Manage files*
+:ls         List files
+:b file     Jump to file
+:e file     Open file
+:enew       Open new file
+space-space Most recently used files
+space-ev    Open vimrc
+space-oo    Liste over alle filer i dir
+
+*Folds*
+zo          Open fold
+zc          Close fold
+zR          Open all folds
+zM          Close all folds
+
+*Searching*
+/foo        Forward searsh
+?foo        Backward search
+n           Next match
+N           Prev match
+*           Find word under cursor
+#           Find word under cursor backward
+
+*Misc*
+Ctrl-r                      Redo
+:%s/text/replacement/g[c]   Replace text globally [c: confirm]
+Ctrl-p                      Word completion
+:ab ls Long string          Abbrevation
+:una ls                     Clear abbrevation
+:!cmd                       Rund external shell command
+
