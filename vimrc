@@ -507,6 +507,9 @@ let g:vimtex_index_split_pos = 'below'
 let g:vimtex_toc_hotkeys = {'enabled' : 1}
 let g:vimtex_view_general_viewer = 'evince'
 
+" Recognize .tikz files as tex
+au BufNewFile,BufRead *.tikz set filetype=tex
+
 " }}}2
 
 " }}}1
