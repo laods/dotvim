@@ -177,6 +177,8 @@ set splitbelow
 set splitright
 set previewheight=20
 set noshowmode
+set number
+set relativenumber
 
 if !has('gui_running')
   set visualbell
@@ -226,7 +228,7 @@ endif
 
 " {{{2 asdasd
 set background=light
-set termguicolors
+silent! set termguicolors
 " }}}2
 
 if &t_Co == 8 && $TERM !~# '^linux'
