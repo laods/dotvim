@@ -24,6 +24,7 @@ Ctrl-w <arrow>  Change window
 Ctrl-w r        Rotate windows clockwise
 Ctrl-w R        Rotate windows co-clockwise
 Ctrl-w c        Close window
+Ctrl-w o        Close all other windows
 :tabnew [file]  Open new tab
 gt              Switch tab
 gT              Switch tab prev
@@ -33,6 +34,7 @@ gT              Switch tab prev
 :ls         List files
 :b file     Jump to file
 :e file     Open file
+:e!         Reload buffer
 :enew       Open new file
 space-space Most recently used files
 space-ev    Open vimrc
@@ -52,6 +54,18 @@ N           Prev match
 *           Find word under cursor
 #           Find word under cursor backward
 
+*Git (vim-fugitive)*
+space-gs    Status
+  -         Stage/unstage
+  cc        Commit
+space-gd    Diff
+
+*Vimtex*
+\ll         Compile
+\lc         Clean
+\le         Errors/warnings
+\lo         Log
+
 *Misc*
 Ctrl-r                      Redo
 :%s/text/replacement/g[c]   Replace text globally [c: confirm]
@@ -59,4 +73,8 @@ Ctrl-p                      Word completion
 :ab ls Long string          Abbrevation
 :una ls                     Clear abbrevation
 :!cmd                       Rund external shell command
-
+Ctrl-s                      Freeze screen
+Ctrl-q                      Undo freeze
+:ALEDisable                 Disable Python warningsi
+]]                          End environment
+space-pu                    Update plugin
