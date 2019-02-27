@@ -330,7 +330,6 @@ try
   call deoplete#custom#source('ultisnips', 'rank', 1000)
 
   call deoplete#custom#var('omni', 'input_patterns', {
-        \ 'foam' : g:foam#complete#re_refresh_deoplete,
         \ 'tex' : g:vimtex#re#deoplete,
         \})
 catch
@@ -506,6 +505,11 @@ let g:vimtex_quickfix_open_on_warning = 0
 let g:vimtex_index_split_pos = 'below'
 let g:vimtex_toc_hotkeys = {'enabled' : 1}
 let g:vimtex_view_general_viewer = 'evince'
+let g:vimtex_fold_enabled=1
+let g:vimtex_fold_types = {
+      \ 'sections' : {'parse_levels': 1},
+      \}
+
 
 " Recognize .tikz files as tex
 au BufNewFile,BufRead *.tikz set filetype=tex
