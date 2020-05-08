@@ -27,6 +27,9 @@ Plug 'roxma/nvim-yarp', has('nvim') ? { 'on' : [] } : {}
 " Plugin: Finder, motions, and tags
 Plug 'ctrlpvim/ctrlp.vim'       " Fuzzy file finder
 Plug 'dyng/ctrlsf.vim'          " A very nice search and replace plugin
+if has('nvim') || v:version >= 800
+  Plug 'ludovicchabant/vim-gutentags'
+endif
 
 " Plugin: Linting, debugging, and code runners
 if has('nvim') || v:version >= 800
@@ -230,6 +233,12 @@ endif
 set background=light
 silent! set termguicolors
 " }}}2
+
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
 
 if &t_Co == 8 && $TERM !~# '^linux'
   set t_Co=256
@@ -474,7 +483,22 @@ nnoremap <silent> <leader>pc :PlugClean<cr>
 noremap <plug>(slash-after) zz
 
 " }}}2
+" {{{2 plugin: vim-gutentags
 
+let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')
+let g:gutentags_define_advanced_commands = 1
+let g:gutentags_ctags_extra_args = [
+      \ '--tag-relative=yes',
+      \ '--fields=+aimS',
+      \ ]
+"let g:gutentags_file_list_command = {
+"      \ 'markers': {
+"      \   '.git': 'git ls-files',
+"      \   '.hg': 'hg files',
+"      \ },
+"      \}
+
+" }}}2
 " {{{2 filetype: python
 
 " Note: Remember to install python[23]-jedi!
@@ -513,6 +537,11 @@ let g:vimtex_fold_types = {
 
 " Recognize .tikz files as tex
 au BufNewFile,BufRead *.tikz set filetype=tex
+
+" }}}2
+" {{{2 filetype: fortran
+
+let fortran_free_source = 1
 
 " }}}2
 
