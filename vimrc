@@ -55,6 +55,9 @@ call plug#end()
 
 " }}}1
 
+filetype plugin indent on
+syntax on
+
 if g:vimrc#bootstrap | finish | endif
 
 " {{{1 Autocommands
@@ -526,8 +529,8 @@ let g:tex_flavor = 'latex'
 let g:tex_isk='48-57,a-z,A-Z,192-255,:'
 
 let g:vimtex_quickfix_open_on_warning = 0
-let g:vimtex_index_split_pos = 'below'
-let g:vimtex_toc_hotkeys = {'enabled' : 1}
+"let g:vimtex_index_split_pos = 'below'
+"let g:vimtex_toc_hotkeys = {'enabled' : 1}
 let g:vimtex_view_general_viewer = 'evince'
 let g:vimtex_fold_enabled=1
 let g:vimtex_fold_types = {
